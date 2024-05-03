@@ -45,3 +45,4 @@ For support, contact:
 
 ---
 
+![screen](https://charts.mql5.com/39/457/audusd-h1-oanda-corporation-2.png)
