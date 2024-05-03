@@ -3,7 +3,7 @@
 
 ## TrendExpert
 
- TrendExpert is a sophisticated MQL trading strategy developed by TradeAdviser LLC. It combines advanced technical indicators and risk management principles to deliver consistent and profitable trading outcomes in the financial markets. This strategy is designed to be robust, adaptable, and suitable for various market conditions.
+ TrendExpert is a sophisticated MQL trading strategy indicator developed by TradeAdviser LLC. It combines advanced technical indicators and risk management principles to deliver consistent and profitable trading outcomes in the financial markets. This strategy is designed to be robust, adaptable, and suitable for various market conditions.
 
 ### Key Features:
 - Utilizes Moving Averages (MA) for trend identification and confirmation.
@@ -12,14 +12,36 @@
 - Compatible with MetaTrader 4 (MT4) platform for seamless execution.
 - Customizable parameters to tailor the strategy to specific trading preferences.
 
-### Redistribution Terms and Conditions:
-- TrendExpert is copyrighted by TradeAdviser LLC.
-- Redistribution and modification are permitted for personal and non-commercial use only.
-- Commercial use and distribution require explicit permission from TradeAdviser LLC.
+## TrendExpert Trading Strategy
 
-### Disclaimer:
-Trading involves risk, and past performance is not indicative of future results. TrendExpert is intended for educational and informational purposes only. TradeAdviser LLC does not guarantee profitability or success in trading activities.
+### License
+
+This trading strategy, TrendExpert, is distributed under the Apache 2 license.
+
+
+
+
+### Risk Disclaimer
+
+Trading involves risks, and past performance does not guarantee future results. TradeAdviser LLC does not guarantee profits or success in financial markets. Users are responsible for their trading decisions and should consider their risk tolerance before trading.
+
+### Installation
+
+1. Download the latest version of MetaTrader 4 (MT4) from [MetaQuotes](https://www.metatrader4.com/).
+2. Install MT4 on your computer following the installation instructions provided.
+3. Open MT4 and log in to your trading account.
+4. In MT4, go to 'File' -> 'Open Data Folder' to open the data folder.
+5. Copy the `TrendExpert.ex4` file into the 'MQL4/Experts' folder within the MT4 data folder.
+6. Restart MT4 to load the TrendExpert trading strategy.
+7. Drag and drop the TrendExpert strategy onto the chart of the financial instrument you want to trade.
+8. Configure the strategy parameters and settings according to your trading preferences.
+
+### Support
+
+For support, contact:
+
+- Phone: +1 (302) 317-6610
+- Email: nguemechieu@live.com
 
 ---
 
-Feel free to adjust the description according to your specific preferences and requirements.
