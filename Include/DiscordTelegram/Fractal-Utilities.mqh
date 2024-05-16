@@ -1,0 +1,166 @@
+//+------------------------------------------------------------------+
+//|                                                      ProjectName |
+//|                                      Copyright 2018, CompanyName |
+//|                                       http://www.companyname.net |
+//+------------------------------------------------------------------+
+
+// Fractal Utilities
+
+#property copyright "Developed By Noel Nguemechieu"
+#property link ""
+#property version "1.0"
+
+enum ENUM_SHAPE
+  {
+   ARROW = 226,           // Arrow
+   BOLD_ARROW = 234,      // Bold Arrow
+   HALLOW_ARROW = 242,    // Hallow Arrow
+   WING = 218,            // Wing
+   CIRCLE = 159,          // Circle
+   SQUARE = 167,          // Square
+   RHOMBUS = 119,         // Rhombus
+   STAR = 172             // Star
+  };
+
+enum ENUM_BUFFER
+  {
+   UP_FRACTAL_ARROW = 0,
+   DOWN_FRACTAL_ARROW = 1,
+   UP_FRACTAL = 2,
+   DOWN_FRACTAL = 3
+  };
+
+enum ENUM_INDICATOR_TIMEFRAME
+  {
+   CURRENT,    // Current
+   M1,         // M1
+   M5,         // M5
+   M15,        // M15
+   M30,        // M30
+   H1,         // H1
+   H4,         // H4
+   D1,         // D1
+   W1,         // W1
+   MN          // MN
+  };
+
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+ENUM_TIMEFRAMES getTimeFrame(ENUM_INDICATOR_TIMEFRAME inputTimeFrame)
+  {
+   ENUM_TIMEFRAMES timeFrame = PERIOD_CURRENT;
+   switch(inputTimeFrame)
+     {
+      case CURRENT:
+         timeFrame = PERIOD_CURRENT;
+         break;
+      case M1:
+         timeFrame = PERIOD_M1;
+         break;
+      case M5:
+         timeFrame = PERIOD_M5;
+         break;
+      case M15:
+         timeFrame = PERIOD_M15;
+         break;
+      case M30:
+         timeFrame = PERIOD_M30;
+         break;
+      case H1:
+         timeFrame = PERIOD_H1;
+         break;
+      case H4:
+         timeFrame = PERIOD_H4;
+         break;
+      case D1:
+         timeFrame = PERIOD_D1;
+         break;
+      case W1:
+         timeFrame = PERIOD_W1;
+         break;
+      case MN:
+         timeFrame = PERIOD_MN1;
+     }
+   return timeFrame;
+  }
+
+string getRelativePath();
+
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+bool isUpFractal(const int bar, const double radius)
+  {
+   for(int adjacentBar = 1; adjacentBar <= radius; adjacentBar++)
+     {
+      if(!(High[bar + adjacentBar] <= High[bar] && High[bar - adjacentBar] <= High[bar]))
+        {
+         return false;
+        }
+     }
+   return true;
+  }
+
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+bool isDownFractal(const int bar, const double radius)
+  {
+   for(int adjacentBar = 1; adjacentBar <= radius; adjacentBar++)
+     {
+      if(!(Low[bar + adjacentBar] >= Low[bar] && Low[bar - adjacentBar] >= Low[bar]))
+        {
+         return false;
+        }
+     }
+   return true;
+  }
+
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+double YShiftToPriceShift(const int YShift)
+  {
+   int oldestVisibleBar = WindowFirstVisibleBar();
+   int XStart;
+   int YStart;
+   ChartTimePriceToXY(0, 0, Time[oldestVisibleBar], Close[oldestVisibleBar], XStart, YStart);
+
+   int subWindow;
+   datetime timeEnd;
+   double priceEnd;
+   ChartXYToTimePrice(0, XStart, YStart - YShift, subWindow, timeEnd, priceEnd);
+
+   double priceShift = priceEnd - Close[oldestVisibleBar];
+   return priceShift;
+  }
+
+//+------------------------------------------------------------------+
+//|                                                                  |
+//+------------------------------------------------------------------+
+void adjustArrowOffset(const int YShift,
+                       double & upFractalArrow[],
+                       double & xdownFractalArrow[],
+                       const double & xupFractal[],
+                       const double & xdownFractal[])
+  {
+   int oldestVisibleBar = WindowFirstVisibleBar();
+   int numVisibleBars = WindowBarsPerChart();
+   int newestVisibleBar = oldestVisibleBar - numVisibleBars;
+   if(newestVisibleBar < 0)
+     {
+      newestVisibleBar = 0;
+     }
+   for(int bar = newestVisibleBar; bar <= oldestVisibleBar; bar++)
+     {
+      if(upFractalArrow[bar] != EMPTY_VALUE)
+        {
+         upFractalArrow[bar] = xupFractal[bar] + YShiftToPriceShift(YShift);
+        }
+      if(xdownFractalArrow[bar] != EMPTY_VALUE)
+        {
+         xdownFractalArrow[bar] = xdownFractal[bar] - YShiftToPriceShift(YShift + 1);
+        }
+     }
+  }
